@@ -1,14 +1,17 @@
-# Welcome to your CDK TypeScript project
+# Optimus Core
 
-This is a blank project for CDK development with TypeScript.
+Part of the Optimus Stack - A rapid application deployment framework
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Version Compatibility
+- optimus-ui: v0.1.0
+- optimus-core: v0.1.0
+- optimus-api: v0.1.0
 
-## Useful commands
+## Quick Start
+[Instructions]
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+## Configuration
+[Configuration details]
+
+## Integration Points
+[How this connects with other Optimus components]
