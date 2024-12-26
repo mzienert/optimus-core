@@ -1,0 +1,16 @@
+{
+  "name": "hello-world-lambda",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.130",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
