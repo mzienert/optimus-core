@@ -4,7 +4,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 
 export interface IAMRolesConstructProps {
-  sentinelBucket: s3.IBucket;
+  optimusAPIBucket: s3.IBucket;
   region: string;
   account: string;
   dynamoTableArn: string;
@@ -133,8 +133,8 @@ export class IAMRolesConstruct extends Construct {
         's3:GetObjectVersion'
       ],
       resources: [
-        props.sentinelBucket.bucketArn,
-        `${props.sentinelBucket.bucketArn}/*`
+        props.optimusAPIBucket.bucketArn,
+        `${props.optimusAPIBucket.bucketArn}/*`
       ]
     }));
 
@@ -167,7 +167,7 @@ export class IAMRolesConstruct extends Construct {
     });
 
     // S3 permissions for build role
-    props.sentinelBucket.grantReadWrite(this.buildRole);
+    props.optimusAPIBucket.grantReadWrite(this.buildRole);
 
     // CodeDeploy permissions for build role
     this.buildRole.addToPolicy(new iam.PolicyStatement({
@@ -185,10 +185,10 @@ export class IAMRolesConstruct extends Construct {
         'codedeploy:ListDeployments'
       ],
       resources: [
-        `${props.sentinelBucket.bucketArn}/*`,
-        props.sentinelBucket.bucketArn,
-        `arn:aws:codedeploy:${props.region}:${props.account}:deploymentgroup:GalvitronApplication/GalvitronDeploymentGroup`,
-        `arn:aws:codedeploy:${props.region}:${props.account}:application:GalvitronApplication`,
+        `${props.optimusAPIBucket.bucketArn}/*`,
+        props.optimusAPIBucket.bucketArn,
+        `arn:aws:codedeploy:${props.region}:${props.account}:deploymentgroup:OptimusApplication/OptimusDeploymentGroup`,
+        `arn:aws:codedeploy:${props.region}:${props.account}:application:OptimusApplication`,
         `arn:aws:codedeploy:${props.region}:${props.account}:deploymentconfig:*`
       ]
     }));
