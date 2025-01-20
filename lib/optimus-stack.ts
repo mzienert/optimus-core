@@ -49,7 +49,7 @@ export class OptimusStack extends cdk.Stack {
 
     // Create IAM Roles
     const iamRoles = new IAMRolesConstruct(this, 'IAMRoles', {
-      optimusBucket: s3Construct.bucket,
+      optimusAPIBucket: s3Construct.bucket,
       region: this.region,
       account: this.account,
       dynamoTableArn: this.dynamoConstruct.table.tableArn
@@ -265,7 +265,7 @@ export class OptimusStack extends cdk.Stack {
           },
           pre_build: {
             commands: [
-              'cd /tmp/workspace/optimus-api/lambdas/hello-world',
+              'cd /tmp/workspace/optimus-api/lambdas/optimus',
               'rm -rf node_modules dist',
               'npm ci',
               'npm run build',
@@ -299,7 +299,7 @@ export class OptimusStack extends cdk.Stack {
             'ecosystem.config.js',
             'package*.json',
             'dist/**/*',
-            'lambdas/hello-world/dist/**/*'
+            'lambdas/optimus/dist/**/*'
           ]
         }
       })
@@ -324,9 +324,9 @@ export class OptimusStack extends cdk.Stack {
     });
 
     // Create Lambda and API Gateway
-    const helloWorldFunction = new lambda.Function(this, 'HelloWorldFunction', {
+    const optimusFunction = new lambda.Function(this, 'optimusFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      code: lambda.Code.fromAsset(this.getLambdaPath('hello-world'), {
+      code: lambda.Code.fromAsset(this.getLambdaPath('optimus'), {
         exclude: ['node_modules', 'node_modules/**', '.git', 'README.md']
       }),
       handler: 'dist/index.handler',
@@ -339,15 +339,15 @@ export class OptimusStack extends cdk.Stack {
       role: iamRoles.lambdaRole, // Use role from IAMRolesConstruct
     });
 
-    this.dynamoConstruct.table.grantReadData(helloWorldFunction);   
+    this.dynamoConstruct.table.grantReadData(optimusFunction);   
 
-    const api = new apigateway.LambdaRestApi(this, 'HelloWorldApi', {
-      handler: helloWorldFunction,
+    const api = new apigateway.LambdaRestApi(this, 'optimusApi', {
+      handler: optimusFunction,
       proxy: false,
     });
 
-    const helloResource = api.root.addResource('hello');
-    helloResource.addMethod('GET');
+    const optimusResource = api.root.addResource('optimus');
+    optimusResource.addMethod('GET');
 
     // Create Cognito Pool
     new CognitoPool(this, 'MyCognitoPool', {
@@ -404,15 +404,15 @@ export class OptimusStack extends cdk.Stack {
 
     // Lambda Function Outputs
     new cdk.CfnOutput(this, 'LambdaFunctionArn', {
-      value: helloWorldFunction.functionArn,
-      description: 'ARN of the Hello World Lambda function',
-      exportName: 'HelloWorldLambdaArn'
+      value: optimusFunction.functionArn,
+      description: 'ARN of the optimus Lambda function',
+      exportName: 'optimusLambdaArn'
     });
 
     new cdk.CfnOutput(this, 'ApiGatewayUrl', {
       value: api.url,
       description: 'URL of the API Gateway endpoint',
-      exportName: 'HelloWorldApiUrl'
+      exportName: 'optimusApiUrl'
     });
 
     new cdk.CfnOutput(this, 'NextJSWebsiteURL', {

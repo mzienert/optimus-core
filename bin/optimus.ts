@@ -1,6 +1,6 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { OptimusStack } from '../lib/optimus-core-stack';
+import { OptimusStack } from '../lib/optimus-stack';
 
 const app = new cdk.App();
 new OptimusStack(app, 'OptimusStack', {
