@@ -210,7 +210,7 @@ export class OptimusStack extends cdk.Stack {
     // Create EC2 Instance
     const ec2Construct = new EC2Construct(this, 'EC2Construct', {
       vpc: vpcConstruct.vpc,
-      keyName: 'optimus-core-key-2',
+      keyName: 'galvitron-key-2',
       userData: userData,
       role: iamRoles.instanceRole,
       tags: TAGS

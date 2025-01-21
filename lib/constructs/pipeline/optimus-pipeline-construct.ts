@@ -9,19 +9,19 @@ import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import { Construct } from 'constructs';
 
-export interface NextJSPipelineConstructProps {
+export interface OptimusUIPipelineConstructProps {
   githubOwner: string;
   githubRepo: string;
   githubBranch: string;
   githubTokenSecretName: string;
 }
 
-export class NextJSPipelineConstruct extends Construct {
+export class OptimusUIPipelineConstruct extends Construct {
   public readonly pipeline: codepipeline.Pipeline;
   public readonly websiteBucket: s3.Bucket;
   public readonly distribution: cloudfront.Distribution;
 
-  constructor(scope: Construct, id: string, props: NextJSPipelineConstructProps) {
+  constructor(scope: Construct, id: string, props: OptimusUIPipelineConstructProps) {
     super(scope, id);
 
     // Create S3 bucket for the website
@@ -140,8 +140,8 @@ export class NextJSPipelineConstruct extends Construct {
     this.websiteBucket.grantReadWrite(buildProject);
 
     // Create the pipeline
-    this.pipeline = new codepipeline.Pipeline(this, 'NextJSPipeline', {
-      pipelineName: 'NextJSWebsitePipeline',
+    this.pipeline = new codepipeline.Pipeline(this, 'NextPipeline', {
+      pipelineName: 'OptimusUIPipeline',
       crossAccountKeys: false,
       restartExecutionOnUpdate: true,
     });
